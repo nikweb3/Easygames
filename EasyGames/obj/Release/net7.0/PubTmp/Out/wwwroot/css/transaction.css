@@ -1,0 +1,32 @@
+﻿.toast {
+    position: relative;
+    min-width: 350px;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: black !important;
+    padding: 4px;
+}
+
+table.dataTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    table.dataTable td,
+    table.dataTable th {
+        border: 1px solid #ddd;
+    }
+
+    table.dataTable th {
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 2%;
+}

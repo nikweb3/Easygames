@@ -1,0 +1,40 @@
+﻿@model List<ClientModel>
+
+@{
+    ViewBag.Title = "Clients";
+    ViewBag.AppName = "Client";
+    <link rel="stylesheet" type="text/css" href="~/css/client.css" asp-append-version="true" />
+
+    var culture = new System.Globalization.CultureInfo("en-ZA");
+    culture.NumberFormat.CurrencySymbol = "R";
+}
+
+@section scripts {
+    <script src="~/js/client.js" asp-append-version="true"></script>
+}
+
+<br/>
+
+<table id="myTable">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Surname</th>
+            <th class="text-center">Balance</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td class="text-center">@client.ClientID</td>
+                <td class="text-center">@client.Name</td>
+                <td class="text-center">@client.Surname</td>
+                <td class="text-center">@client.ClientBalance.ToString("C", culture)</td>
+                <td class="text-center"><button class="btn btn-primary edit-comment-btn" onclick="viewTransactions(@client.ClientID)">View transactions</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

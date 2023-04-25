@@ -1,0 +1,122 @@
+﻿@model List<TransactionsModel>
+
+@{
+    ViewBag.Title = "Transactions";
+    ViewBag.AppName = "Transactions";
+    <link rel="stylesheet" type="text/css" href="~/css/transaction.css" asp-append-version="true" />
+}
+
+@section scripts {
+    <script src="~/js/transaction.js" asp-append-version="true"></script>
+}
+
+<br/>
+
+<button type="button" class="btn btn-primary" id="addTransactionBtn">Add New Transaction</button>
+
+<br/>
+<br/>
+
+<table id="myTable">
+    <thead>
+        <tr>
+            <th style="display:none;">ID</th>
+            <th class="text-center">Amount</th>
+            <th class="text-center">Transaction Type</th>
+            <th style="display:none;">Client ID</th>
+            <th class="text-center">Comment</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td style="display:none;">@transaction.TransactionID</td>
+                <td class="text-center">@transaction.Amount</td>
+                <td class="text-center">
+                    @if (transaction.TransactionTypeID == 1)
+                    {
+                        <div>Debit</div>
+                    }
+                    else if (transaction.TransactionTypeID == 2)
+                    {
+                        <div>Credit</div>
+                    }
+                </td>
+                <td style="display:none;">@transaction.ClientID</td>
+                <td class="comment text-center">@transaction.Comment</td>
+                <td class="text-center"><button type="button" class="btn btn-primary edit-comment-btn" data-toggle="modal" data-target="#editCommentModal" data-comment="@transaction.Comment" data-transactionid="@transaction.TransactionID" id="editbutton">Edit</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTransactionModalLabel">Add Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addTransactionForm">
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" id="clientId" name="clientId" value="@Model.FirstOrDefault()?.ClientID" required>
+
+
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="transactionTypeId" class="form-label">Transaction Type ID</label>
+                        <select class="form-select" id="transactionTypeId" name="transactionTypeId" required>
+                            <option value="1">Debit</option>
+                            <option value="2">Credit</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment</label>
+                        <input type="text" class="form-control" id="comment" name="comment" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="toastContainer"></div>
+</div>
+
+<div class="modal fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCommentModalLabel">Edit Comment</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCommentForm">
+                    <div class="form-group">
+                        <label for="commentInput">Comment:</label>
+                        <textarea class="form-control" id="commentInput" name="comment" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveCommentBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
